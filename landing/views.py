@@ -13,7 +13,6 @@ def ip_user(request):
         ip = request.META.get('REMOTE_ADDR')  # Получение IP
 
 
-
 class TemplView(View):
     def get(self, request):
         return render(request, 'landing/index.html')
@@ -24,17 +23,22 @@ class TemplView(View):
         form = TemplateForm(received_data)
         print(form)
         if form.is_valid():
-            # my_text = form.cleaned_data.get(
-            #     "my_text")
-            # my_email = form.cleaned_data.get("my_email")
-            # my_message = form.cleaned_data.get("my_message")
-            # x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-            # if x_forwarded_for:
-            #     ip = x_forwarded_for.split(',')[0]  # Получение IP
-            # else:
-            #     ip = request.META.get('REMOTE_ADDR')  # Получение IP
-            #
-            # user_agent = request.META.get('HTTP_USER_AGENT')
-            # return JsonResponse(form.cleaned_data)
-            return JsonResponse(data=form.cleaned_data, json_dumps_params={"indent": 4, "ensure_ascii": False})
+            my_text = form.cleaned_data.get(
+                "my_text")
+            my_email = form.cleaned_data.get("my_email")
+            my_message = form.cleaned_data.get("my_message")
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            if x_forwarded_for:
+                ip = x_forwarded_for.split(',')[0]  # Получение IP
+            else:
+                ip = request.META.get('REMOTE_ADDR')  # Получение IP
+
+            user_agent = request.META.get('HTTP_USER_AGENT')
+
+            return JsonResponse(data={"my_text": my_text,
+                                      "my_email": my_email,
+                                      "my_message": my_message,
+                                      "ip": ip,
+                                      "user_agent": user_agent},
+                                json_dumps_params={"indent": 4, "ensure_ascii": False})
         return render(request, 'landing/index.html', context={"form": form})
