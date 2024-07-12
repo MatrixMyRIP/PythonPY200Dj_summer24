@@ -12,7 +12,7 @@ urlpatterns = [
     path('template/', TemplView.as_view(), name='template'),
     path('template/', template_view, name='template'),
     path('login/', LoginView.as_view(template_name='app/login.html',
-                                 redirect_authenticated_user=True), name='login'),
+                                     redirect_authenticated_user=True), name='login'),
     path('login/', MyLoginView.as_view(), name='login'),
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
